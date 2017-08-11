@@ -10,5 +10,5 @@ For running with python, required dependencies, that can be aquired with pip:
   - requests
   - psutils
 
-Then run with: "python full.py".
+Then run with: "python full.py". 
 Tested with python 3.5.2
