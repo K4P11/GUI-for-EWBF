@@ -27,7 +27,7 @@ def sendmail(maddr,mpwd):
     server.quit()"""
 
 fnames=os.listdir()
-name="miner --server zec-eu1.nanopool.org --user t1Z7W61kKQJcEybrLdgJHpvpwr7j2SYt7mk.1 --pass z --port 6666 --cuda_devices 0 1 --fee 0 --api --pec"
+name="miner --server zec-eu1.nanopool.org --user t1dA2nN87SxyL4WYh1rWBaCWNqBiwNkpRGs.5 --pass z --port 6666 --cuda_devices 0 1 --fee 0 --api --pec"
 path="D:/Program Files/MultiMiner/Zec Miner/0.3.4b/"
 names=[]
 if 'conf.txt' in fnames:
