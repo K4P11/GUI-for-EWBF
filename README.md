@@ -32,4 +32,4 @@ Other notes for usage:
     - 2nd line: windows execution line
     - 3rd line: linux execution line
   
-If you loose your mind and want to donate, mine with default execution line or send so ZEC address: t1dA2nN87SxyL4WYh1rWBaCWNqBiwNkpRGs
+If you loose your mind and want to donate, mine with default execution line or send to ZEC address: t1dA2nN87SxyL4WYh1rWBaCWNqBiwNkpRGs
