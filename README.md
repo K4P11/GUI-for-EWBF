@@ -1,6 +1,6 @@
 # GUI-for-EWBF
 GUI for EWBF miner for monitoring (cool graphs) performance with restart capability.
-Monitors hashrate, temperature and power usage + shows stats for Zcash price, network hashrate and difficulty
+Monitors hashrate, temperature and power usage + shows stats for Zcash price, network hashrate and difficulty.
 Windows binary available at: https://www.dropbox.com/s/g16pbzd7gxgetgw/EWBF%20GUI.rar?dl=0.
 Add conf.txt to folder for faster start up as without it program tries to find miner directory which is highly time consuming.
 
