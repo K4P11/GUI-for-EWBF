@@ -32,6 +32,3 @@ Other notes for usage:
     - 2nd line: windows execution line
     - 3rd line: linux execution line
   
-
-- K4P1
-  
