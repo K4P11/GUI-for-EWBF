@@ -160,6 +160,8 @@ class Main(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
                 self.j=0
             except TypeError:
                 self.j=0
+            except:
+                self.j=0
             try:
                 dnet = requests.get(dataurl).json()
                 self.Ndiff.setText(str(int(dnet['difficulty'])))
@@ -167,6 +169,8 @@ class Main(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
             except requests.exceptions.RequestException as e:
                 self.j=0
             except TypeError:
+                self.j=0
+            except:
                 self.j=0
         
 
