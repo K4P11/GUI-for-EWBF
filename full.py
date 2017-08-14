@@ -81,7 +81,7 @@ class TimeAxisItem(pg.AxisItem):
         super().__init__(*args, **kwargs)
 
     def tickStrings(self, values, scale, spacing):
-        return [t.addMSecs(value).toString('HH:mm:ss') for value in values]    
+        return [(str('{:.2f}'.format(value/86400000))+t.addMSecs(value).toString(' HH:mm:ss')) for value in values]    
 setter=ival()
 class Main(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
     global ival
