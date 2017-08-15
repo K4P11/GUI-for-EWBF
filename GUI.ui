@@ -406,9 +406,9 @@
    <widget class="QLabel" name="label_8">
     <property name="geometry">
      <rect>
-      <x>480</x>
+      <x>390</x>
       <y>240</y>
-      <width>81</width>
+      <width>111</width>
       <height>20</height>
      </rect>
     </property>
@@ -420,7 +420,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Price (EUR):</string>
+     <string>Price (EUR/USD):</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_9">
@@ -520,6 +520,25 @@
     </property>
     <property name="text">
      <string>0 Sol/s</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="USD">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>240</y>
+      <width>51</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>USD</string>
     </property>
    </widget>
   </widget>

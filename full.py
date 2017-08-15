@@ -49,7 +49,7 @@ else:
         path=drive+d
 
 url='http://127.0.0.1:42000/getstat'
-priceurl="https://min-api.cryptocompare.com/data/price?fsym=ZEC&tsyms=EUR"
+priceurls=["https://min-api.cryptocompare.com/data/price?fsym=ZEC&tsyms=EUR","https://min-api.cryptocompare.com/data/price?fsym=ZEC&tsyms=USD"]
 dataurl="https://api.zcha.in/v2/mainnet/network"
 global j,sp,dt,P,T,curve, p1, p2,p3
 sp=[]
@@ -102,6 +102,27 @@ class Main(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
         self.path.setText(path)
         self.exeline.setText(name)
         self._want_to_close = True
+        self.priceurl=priceurls[0]
+        self.USD.stateChanged.connect(self.seturl)
+
+    def seturl(self):
+        if self.USD.isChecked()==True:
+            self.priceurl=priceurls[1]
+        else:
+            self.priceurl=priceurls[0]
+        try:
+            dprice = requests.get(self.priceurl).json()
+            if self.USD.isChecked()==False:
+                self.price.setText(str(dprice['EUR']))
+            else:
+                self.price.setText(str(dprice['USD']))
+        except requests.exceptions.RequestException as e:
+            self.j=0
+        except TypeError:
+            self.j=0
+        except:
+            self.j=0
+            
     def updatestatus(self):
         self.j+=1
         try:
@@ -154,8 +175,11 @@ class Main(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
         if self.j>=90:
             self.j=0
             try:
-                dprice = requests.get(priceurl).json()
-                self.price.setText(str(dprice['EUR']))
+                dprice = requests.get(self.priceurl).json()
+                if self.USD.isChecked()==False:
+                    self.price.setText(str(dprice['EUR']))
+                else:
+                    self.price.setText(str(dprice['USD']))
             except requests.exceptions.RequestException as e:
                 self.j=0
             except TypeError:
@@ -213,8 +237,14 @@ class Main(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
 
     def closeEvent(self, event):
         if self._want_to_close:
-            self.mon.close()
-            process.kill()
+            try:
+                self.mon.close()
+            except:
+                i=0
+            try:
+                process.kill()
+            except:
+                i=0
             super(Main, self).closeEvent(event) 
 class Second(pg.GraphicsLayoutWidget):
     def __init__(self, parent=None):
