@@ -81,7 +81,7 @@ class TimeAxisItem(pg.AxisItem):
         super().__init__(*args, **kwargs)
 
     def tickStrings(self, values, scale, spacing):
-        return [(str('{:.2f}'.format(value/86400000))+t.addMSecs(value).toString(' HH:mm:ss')) for value in values]    
+        return [datetime.datetime.fromtimestamp(value).strftime('%Y-%m-%d %H:%M:%S') for value in values]    
 setter=ival()
 class Main(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
     global ival
@@ -303,7 +303,7 @@ class Second(pg.GraphicsLayoutWidget):
                 self.P[i].append(l['result'][i]['gpu_power_usage'])
                 self.sp[i].append(l['result'][i]['speed_sps'])
                 self.eff[i].append(l['result'][i]['speed_sps']/l['result'][i]['gpu_power_usage'])
-            self.dt.append(t.elapsed())
+            self.dt.append(time.time())
             for i in range(0,len(self.T)):
                 self.curve[i].setData(x=self.dt,y=self.sp[i])                
                 self.curve1[i].setData(x=self.dt,y=self.T[i])
