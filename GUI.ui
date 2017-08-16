@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>752</width>
-    <height>600</height>
+    <height>598</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -31,9 +31,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>270</y>
+      <y>300</y>
       <width>351</width>
-      <height>301</height>
+      <height>271</height>
      </rect>
     </property>
    </widget>
@@ -408,7 +408,7 @@
      <rect>
       <x>390</x>
       <y>240</y>
-      <width>111</width>
+      <width>61</width>
       <height>20</height>
      </rect>
     </property>
@@ -420,7 +420,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Price (EUR/USD):</string>
+     <string>ZEC price:</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_9">
@@ -522,13 +522,23 @@
      <string>0 Sol/s</string>
     </property>
    </widget>
-   <widget class="QCheckBox" name="USD">
+   <widget class="QComboBox" name="CASH">
     <property name="geometry">
      <rect>
-      <x>520</x>
+      <x>468</x>
       <y>240</y>
-      <width>51</width>
-      <height>17</height>
+      <width>81</width>
+      <height>22</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="ASH">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>270</y>
+      <width>91</width>
+      <height>21</height>
      </rect>
     </property>
     <property name="font">
@@ -537,8 +547,31 @@
       <bold>true</bold>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(0, 255, 0);</string>
+    </property>
     <property name="text">
-     <string>USD</string>
+     <string>0</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_13">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>270</y>
+      <width>101</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>AVG shares/h:</string>
     </property>
    </widget>
   </widget>

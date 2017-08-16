@@ -100,6 +100,7 @@ class Main(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
         self.timer.timeout.connect(self.updatestatus)
         self.timer.start(2000)
         self.mon = None
+        self.tnow=-1
         self.path.setText(path)
         self.exeline.setText(name)
         self._want_to_close = True
@@ -142,7 +143,7 @@ class Main(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
                 except ZeroDivisionError:
                     EFF='0 Sol/W'
                 item = "GPU "+str(data['result'][i]['cudaid'])+": "+data['result'][i]['name']+' '+status+'\tEFF: '+EFF
-                acs=data['result'][i]['accepted_shares']
+                acs+=data['result'][i]['accepted_shares']
                 rcs=data['result'][i]['rejected_shares']
                 self.GPUs.addItem(item)
             if status=='ONLINE':
@@ -157,7 +158,11 @@ class Main(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
                 self.Muint.setText("30")
             else:
                 setter.new(int(self.Muint.text()))
-                
+
+            if self.tnow!=-1:
+                thours=(time.time()-self.tnow)/3600
+                self.ASH.setText('{:.2f}'.format(acs/thours))
+            
         except requests.exceptions.RequestException as e:
             item = "Not Connected"
             self.srv.setText("Not connected")
@@ -199,6 +204,7 @@ class Main(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
             try:
                 os.chdir(d)
                 process.start(name)
+                self.tnow=time.time()
             except PermissionError:
                 QMessageBox.critical(self,"Error","Problems when accessing directory",QMessageBox.Ok)
             except FileNotFoundError:
@@ -294,7 +300,10 @@ class Second(pg.GraphicsLayoutWidget):
                 self.T[i].append(l['result'][i]['temperature'])
                 self.P[i].append(l['result'][i]['gpu_power_usage'])
                 self.sp[i].append(l['result'][i]['speed_sps'])
-                self.eff[i].append(l['result'][i]['speed_sps']/l['result'][i]['gpu_power_usage'])
+                try:
+                    self.eff[i].append(l['result'][i]['speed_sps']/l['result'][i]['gpu_power_usage'])
+                except ZeroDivisionError:
+                    self.eff[i].append(0)
             self.dt.append(time.time())
             for i in range(0,len(self.T)):
                 self.curve[i].setData(x=self.dt,y=self.sp[i])                
