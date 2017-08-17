@@ -68,14 +68,17 @@ def is_int(num):
         return True
     except ValueError:
         return False
+
 class ival():
     global tval
     def __init__(self):
         self.tval=30
+        self.url='http://127.0.0.1:42000/getstat'
     def new(self,num):
         self.tval=num
     def get(self):
         return self.tval
+setter=ival()
 
 class TimeAxisItem(pg.AxisItem):
     def __init__(self, *args, **kwargs):
@@ -83,7 +86,7 @@ class TimeAxisItem(pg.AxisItem):
 
     def tickStrings(self, values, scale, spacing):
         return [datetime.datetime.fromtimestamp(value).strftime('%Y-%m-%d %H:%M:%S') for value in values]    
-setter=ival()
+
 class Main(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
     global ival
     def __init__(self, parent=None):
@@ -123,6 +126,7 @@ class Main(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
         self.j+=1
         try:
             url=str(self.urladd.text())
+            setter.url=url
             data = requests.get(url).json()
             self.GPUs.clear()
             acs=0
@@ -170,8 +174,13 @@ class Main(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
             self.GPUs.addItem(item)
             self.Tspeed.setText(" 0 Sol/s")
             self.stmine()
+            if is_int(self.Muint.text())==False:
+                self.Muint.setText("30")
+            else:
+                setter.new(int(self.Muint.text()))
             if self.Astart.isChecked()==True:
                 self.mine()
+
         if self.j>=90:
             self.j=0
             try:
@@ -253,16 +262,19 @@ class Second(pg.GraphicsLayoutWidget):
         self.sp=[]
         self.dt=[]
         self.eff=[]
+        url=setter.url
+
         try:
+            url=setter.url
             l= requests.get(url).json()
+            for i in range(0,len(l['result'])):
+                self.T.append([])
+                self.P.append([])
+                self.sp.append([])
+                self.eff.append([])
         except requests.exceptions.RequestException as e:
-            return
-        for i in range(0,len(l['result'])):
-            self.T.append([])
-            self.P.append([])
-            self.sp.append([])
-            self.eff.append([])
-        
+                i=0
+            
         self.resize(1000,800)
         self.setWindowTitle('Performance monitor')
         pg.setConfigOptions(antialias=True)
@@ -292,9 +304,11 @@ class Second(pg.GraphicsLayoutWidget):
         
     def update(self):
         try:
-
+            url=setter.url
             l= requests.get(url).json()
             ts=0
+            if len(self.T)<len(l['result']):
+                self.__init__()
             for i in range(0,len(l['result'])):
                 
                 self.T[i].append(l['result'][i]['temperature'])
@@ -319,7 +333,10 @@ class Second(pg.GraphicsLayoutWidget):
             self.timer2.setInterval(setter.tval*1000)
             self.timer2.start()
         except requests.exceptions.RequestException as e:
-            return
+            self.timer2 = QtCore.QTimer()
+            self.timer2.timeout.connect(self.update)
+            self.timer2.setInterval(setter.tval*1000)
+            self.timer2.start()
         
         
 def kill_proc_tree(pid, including_parent=False):    
