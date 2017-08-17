@@ -281,27 +281,34 @@ class Second(pg.GraphicsLayoutWidget):
         
         self.p1 = self.addPlot(title="GPUs speed", axisItems={'bottom': TimeAxisItem(orientation='bottom')})
         self.curve = []
-        self.p1.addLegend()
+        #self.p1.addLegend()
+        vb = self.addViewBox()#
+        vb.setMaximumWidth(100)
+        legend = pg.LegendItem()
+        legend.setParentItem(vb)
+        legend.anchor((0,0), (0,0))#
+        
         self.nextRow()
         self.p2= self.addPlot(title="Temperature", axisItems={'bottom': TimeAxisItem(orientation='bottom')})
-        self.p2.addLegend()
+        #self.p2.addLegend()
         self.curve1=[]
         self.nextRow()
         self.p3= self.addPlot(title="Power", axisItems={'bottom': TimeAxisItem(orientation='bottom')})
-        self.p3.addLegend()
+        #self.p3.addLegend()
         self.curve2=[]
         self.nextRow()
         self.p4= self.addPlot(title="Effiency", axisItems={'bottom': TimeAxisItem(orientation='bottom')})
-        self.p4.addLegend()
+        #self.p4.addLegend()
         self.curve3=[]
         colors=[[255,0,0],[0,255,0],[0,0,255],[0,255,255],[255,0,255],[255,255,0],[125,125,0],[125,0,125],[0,125,125],[255,150,50],[255,50,150]]
         for i in range(0,len(self.T)):
-            self.curve.append(self.p1.plot(pen='y',symbolBrush=(colors[i][0],colors[i][1],colors[i][2]), symbolPen='w',name='GPU '+str(i)))                    
+            self.curve.append(self.p1.plot(pen='y',symbolBrush=(colors[i][0],colors[i][1],colors[i][2]), symbolPen='w',name='n GPU '+str(i)))                    
             self.curve1.append(self.p2.plot(pen='y',symbolBrush=(colors[i][0],colors[i][1],colors[i][2]), symbolPen='w',name='GPU '+str(i)))
             self.curve2.append(self.p3.plot(pen='y',symbolBrush=(colors[i][0],colors[i][1],colors[i][2]), symbolPen='w',name='GPU '+str(i)))
             self.curve3.append(self.p4.plot(pen='y',symbolBrush=(colors[i][0],colors[i][1],colors[i][2]), symbolPen='w',name='GPU '+str(i)))
+            legend.addItem(self.curve[i],name=self.curve[i].name())        
         self.update()
-        
+
     def update(self):
         try:
             url=setter.url
