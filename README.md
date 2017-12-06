@@ -1,5 +1,5 @@
 # GUI for EWBF miner
-GUI for EWBF miner for monitoring (cool graphs) performance with restart capability.
+GUI for EWBF miner for monitoring (cool graphs) performance with restart capability. Supports now both Zcash and BitcoinZ network info.
 Monitors hashrate, temperature and power usage + shows stats for Zcash price, network hashrate and difficulty.
 Windows binary available at: https://github.com/K4P11/GUI-for-EWBF/releases.
 Add conf.txt to folder for faster start up as without it program tries to find miner directory which is highly time consuming.
@@ -33,3 +33,5 @@ Other notes for usage:
     - 3rd line: linux execution line
   
 If you loose your mind and want to donate, mine with default execution line or send to ZEC address: t1dA2nN87SxyL4WYh1rWBaCWNqBiwNkpRGs
+Or for bitcoinZ:
+t1ZTFCy7X4vkjSAPnPPJKJWWzVQx5B1RpCm
