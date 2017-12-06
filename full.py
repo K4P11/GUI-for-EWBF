@@ -49,9 +49,13 @@ else:
         path=drive+d
 
 url='http://127.0.0.1:42000/getstat'
-priceurl="https://min-api.cryptocompare.com/data/price?fsym=ZEC&tsyms=EUR,USD,BTC,ETH"
+pricelist=["https://min-api.cryptocompare.com/data/price?fsym=ZEC&tsyms=EUR,USD,BTC,ETH",
+          "https://min-api.cryptocompare.com/data/price?fsym=BTCZ&tsyms=EUR,USD,BTC,ETH"]
 pops=["EUR","USD","BTC","ETH"]
-dataurl="https://api.zcha.in/v2/mainnet/network"
+nworks=["ZEC","BTCZ"]
+dataurl=["https://api.zcha.in/v2/mainnet/network",
+         "https://www.viciousminer.com/api/stats"]
+
 global j,sp,dt,P,T,curve, p1, p2,p3
 sp=[]
 dt=[]
@@ -109,15 +113,34 @@ class Main(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
         self._want_to_close = True
         for s in pops:
             self.CASH.addItem(s)
+        for s in nworks:
+            self.NWORKS.addItem(s)
         self.CASH.currentIndexChanged.connect(self.seturl)
-        
+        self.NWORKS.currentIndexChanged.connect(self.seturl)
     def seturl(self):
         try:
+            if self.NWORKS.currentText()=='ZEC':
+                priceurl=pricelist[0]
+            else:
+                priceurl=pricelist[1]
             dprice = requests.get(priceurl).json()
             self.price.setText(str(dprice[self.CASH.currentText()]))
         except requests.exceptions.RequestException as e:
             self.j=0
         except TypeError:
+            self.j=0
+        except:
+            self.j=0
+        try:
+            if self.NWORKS.currentText()=='ZEC':
+                dnet = requests.get(dataurl[0]).json()
+                self.Ndiff.setText(str(int(dnet['difficulty'])))
+                self.Nhashrate.setText(str(dnet['hashrate']/1000000))
+            else:
+                dnet = requests.get(dataurl[1]).json()
+                self.Ndiff.setText(str(int(float(dnet['pools']['bitcoinz']['poolStats']['networkDiff']))))
+                self.Nhashrate.setText(str(float(int(dnet['pools']['bitcoinz']['poolStats']['networkSols'])/1000000)))
+        except requests.exceptions.RequestException as e:
             self.j=0
         except:
             self.j=0
@@ -148,7 +171,7 @@ class Main(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
                     EFF='0 Sol/W'
                 item = "GPU "+str(data['result'][i]['cudaid'])+": "+data['result'][i]['name']+' '+status+'\tEFF: '+EFF
                 acs+=data['result'][i]['accepted_shares']
-                rcs=data['result'][i]['rejected_shares']
+                rcs+=data['result'][i]['rejected_shares']
                 self.GPUs.addItem(item)
             if status=='ONLINE':
                     self.average.append(ts)
@@ -165,7 +188,10 @@ class Main(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
 
             if self.tnow!=-1:
                 thours=(time.time()-self.tnow)/3600
-                self.ASH.setText('{:.2f}'.format(acs/thours))
+                try:
+                    self.ASH.setText('{:.2f}'.format(acs/thours))
+                except:
+                    self.ASH.setText('{:.2f}'.format(0))
             
         except requests.exceptions.RequestException as e:
             item = "Not Connected"
@@ -184,6 +210,10 @@ class Main(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
         if self.j>=90:
             self.j=0
             try:
+                if self.NWORKS.currentText()=='ZEC':
+                    priceurl=pricelist[0]
+                else:
+                    priceurl=pricelist[1]
                 dprice = requests.get(priceurl).json()
                 self.price.setText(str(dprice[self.CASH.currentText()]))
             except requests.exceptions.RequestException as e:
@@ -193,9 +223,14 @@ class Main(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
             except:
                 self.j=0
             try:
-                dnet = requests.get(dataurl).json()
-                self.Ndiff.setText(str(int(dnet['difficulty'])))
-                self.Nhashrate.setText(str(dnet['hashrate']/1000000))
+                if self.NWORKS.currentText()=='ZEC':
+                    dnet = requests.get(dataurl[0]).json()
+                    self.Ndiff.setText(str(int(dnet['difficulty'])))
+                    self.Nhashrate.setText(str(dnet['hashrate']/1000000))
+                else:
+                    dnet = requests.get(dataurl[1]).json()
+                    self.Ndiff.setText(str(int(float(dnet['pools']['bitcoinz']['poolStats']['networkDiff']))))
+                    self.Nhashrate.setText(str(float(int(dnet['pools']['bitcoinz']['poolStats']['networkSols'])/1000000)))
             except requests.exceptions.RequestException as e:
                 self.j=0
             except TypeError:
