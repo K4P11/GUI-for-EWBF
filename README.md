@@ -33,5 +33,6 @@ Other notes for usage:
     - 3rd line: linux execution line
   
 If you loose your mind and want to donate, mine with default execution line or send to ZEC address: t1dA2nN87SxyL4WYh1rWBaCWNqBiwNkpRGs
+
 Or for bitcoinZ:
 t1ZTFCy7X4vkjSAPnPPJKJWWzVQx5B1RpCm
