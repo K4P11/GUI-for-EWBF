@@ -3,6 +3,7 @@ GUI for EWBF miner for monitoring (cool graphs) performance with restart capabil
 Monitors hashrate, temperature and power usage + shows stats for Zcash price, network hashrate and difficulty.
 Windows binary available at: https://github.com/K4P11/GUI-for-EWBF/releases.
 Add conf.txt to folder for faster start up as without it program tries to find miner directory which is highly time consuming.
+For unknown reason for example virustotal shows 2 alerts from binary file, while it is only compilation of the source code with pyinstaller. So if you are suspicious, check the code and compile it yourself.
 
 For running with python, required dependencies, that can be aquired with pip:
   - numpy
